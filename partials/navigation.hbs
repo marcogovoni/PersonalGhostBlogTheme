@@ -1,0 +1,12 @@
+<ul class="nav" role="menu">
+  {{#foreach navigation}}
+    <li class="{{link_class for=(url) class=(concat "nav-" slug)}}" data-test="{{type}}" role="menuitem">
+      <a href="{{url absolute="true"}}">
+        {{#if ../show_icon}}
+          {{> menu-icon name=slug size="sm"}}
+        {{/if}}
+        <span>{{label}}</span>
+      </a>
+    </li>
+  {{/foreach}}
+</ul>

@@ -1,0 +1,49 @@
+<div class="filter-bar flex flex-cc m-b-lg p-sm">
+  {{!-- Filter Button --}}
+  <div class="filter-btn flex items-center">
+    <select name="tags" id="select-tags" class="filter-select js-filter-btn">
+      <option value="/" {{^is "tag"}}selected{{/is}}>{{t "Show all"}}</option>
+      {{#if tag}}
+        <option value="/tag/{{tag.slug}}" selected>{{tag.name}}</option>
+      {{/if}}
+      {{#get "tags" include="count.posts" order="count.posts desc" limit="10"}}
+        {{#foreach tags}}
+          <option value="/tag/{{slug}}">{{name}}</option>
+        {{/foreach}}
+      {{/get}}
+    </select>
+    <label for="select-tags">
+      {{> icon name="filter" size="sm"}}
+      {{!-- Fallback Text --}}
+      <span class="filter-text flex-1 p-l-sm fw-500 text-acc-2 js-filter-text">{{t "Latest posts"}}</span>
+    </label>
+
+  </div>
+
+  <span class="flex-1"></span>
+
+  {{!-- Grid/List buttons --}}
+  <button class="btn--grid p-sm m-r-xs js-grid-btn" 
+    aria-label="{{t "Grid"}}" title="{{t "Grid"}}">
+    {{> icon name="grid" size="sm"}}
+  </button>
+  <button class="btn--list p-sm js-list-btn" 
+    aria-label="{{t "List"}}" title="{{t "List"}}">
+    {{> icon name="list" size="sm"}}
+  </button>
+</div>
+
+{{#contentFor "scripts"}}
+  <script>
+    CONFIG.ENABLE_FILTER ? document.querySelector('.js-filter-btn').classList.add('is-active') 
+                        : document.querySelector('.js-filter-text').classList.add('is-active');
+
+    if (CONFIG.ENABLE_FILTER) {
+      const options = [];
+
+      document.querySelectorAll('#select-tags > option').forEach(function(option) {
+        options.includes(option.value) ? option.remove() : options.push(option.value); 
+      });
+    }
+  </script>
+{{/contentFor}}

@@ -1,0 +1,65 @@
+<div class="card author-card author-{{slug}}{{#if class}} {{class}}{{/if}}{{^if profile_image}} no-img{{/if}}" data-type="{{type}}">
+  {{!-- Author profile image --}}
+  {{#is "author"}}
+    <div class="author-card__media flex flex-cc">
+  {{else}}
+    <a class="author-card__media flex flex-cc" href="{{url}}">
+  {{/is}}
+    {{#if profile_image}}
+      <img class="lazyload author-card__img is-round z-index-1{{#is "author, post"}} has-shadow{{/is}}{{#if mini}} m-b-0{{/if}}" 
+        data-srcset="{{img_url profile_image size="s"}} 300w,
+            {{img_url profile_image size="m"}} 600w"
+        srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+        data-sizes="auto"
+        data-src="{{img_url profile_image size="xs"}}"
+        src="{{img_url profile_image size="xxs"}}"
+        alt="{{name}}"
+      />
+    {{/if}}
+    {{#unless profile_image}}{{^is "author"}}<span class="name-letter">{{name}}</span>{{/is}}{{/unless}}
+  {{#is "author"}}</div>{{else}}</a>{{/is}}
+
+  {{!-- Author hero content --}}
+  <div class="author-card__content flex-1 flex flex-col text-acc-1{{#if mini}} content-center{{/if}}">
+    {{!-- Title and description --}}
+    {{#is "author"}}
+      <h1 class="author-card__title m-b-sm">{{name}}</h1>
+    {{else}}
+      <div class="author-card__name fw-600 text-lg m-b-xs"><a href="{{url}}">{{name}}</a></div>
+    {{/is}}
+    
+    {{#unless mini}}
+      {{#if bio}}<div class="author-card__descr text-acc-2 m-b">{{bio}}</div>{{/if}}
+    
+      <div class="author-card__details flex">
+        {{#if post_count}}
+          <div class="fw-600">
+            {{post_count}}
+          </div>
+
+          <div class="flex-1"></div>
+        {{/if}}
+
+        {{!-- Author social links --}}
+        <div class="author-card__social flex">
+          {{#if twitter}}
+            <a href="{{twitter_url}}" target="_blank" title="Twitter" aria-label="Twitter">
+              {{> icon name="twitter" size="xs"}}
+            </a>
+          {{/if}}
+          {{#if facebook}}
+            <a href="{{facebook_url}}" target="_blank" title="Facebook" aria-label="Facebook">
+              {{> icon name="facebook" size="xs"}}
+            </a>
+          {{/if}}
+          {{!-- Author website --}}
+          {{#if website}}
+            <a href="{{website}}" target="_blank" title="Website" aria-label="Website">
+              {{> icon name="link" size="xs"}}
+            </a>
+          {{/if}}
+        </div>
+      </div>
+    {{/unless}}
+  </div>
+</div>

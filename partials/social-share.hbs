@@ -1,0 +1,145 @@
+{{!-- Post/Page share icons --}}
+<div class="social-share">
+  {{!-- twitter --}}
+  <a class="social-share__item js-share" tabindex="0" target="_blank"
+      href="https://twitter.com/share?text={{encode title}}&amp;url={{url absolute='true'}}"
+      title="{{t "Share on"}} Twitter" aria-label="{{t "Share on"}} Twitter">
+    {{>icon name="twitter" size="sm"}}
+  </a>
+  {{!-- facebook --}}
+  <a class="social-share__item js-share" tabindex="0"
+      href="https://www.facebook.com/sharer.php?u={{url absolute='true'}}"
+      title="{{t "Share on"}} Facebook" aria-label="{{t "Share on"}} Facebook">
+    {{>icon name="facebook" size="sm"}}
+  </a>
+  {{!-- Linkedin --}}
+  <a class="social-share__item js-share" tabindex="0" target="_blank"
+      href="https://www.linkedin.com/shareArticle?mini=true&url={{url absolute='true'}}&title={{encode title}}&summary={{encode title}}"
+      title="{{t "Share on"}} Linkedin" aria-label="{{t "Share on"}} Linkedin">
+    {{>icon name="linkedin" size="sm"}}
+  </a>
+  {{!-- Mail --}}
+  <a class="social-share__item" tabindex="0"
+      href="mailto:?subject={{encode title}}&body={{url absolute='true'}}&nbsp;{{encode title}}"
+      title="{{t "Share by email"}}" aria-label="{{t "Share by email"}}">
+    {{>icon name="mail" size="sm"}}
+  </a>
+  <button class="copy-link js-copy-link" tabindex="0" data-url="{{url absolute='true'}}"
+      title="{{t "Copy to clipboard"}}" data-label="{{t "Copied!"}}" aria-label="{{t "Copy to clipboard"}}">
+    {{>icon name="copy" size="sm"}}
+  </button>
+  <button class="handle-bookmark js-handle-bookmark" tabindex="0" 
+      data-id="{{comment_id}}" data-url="{{url absolute='true'}}" data-title="{{title}}"
+      title="{{t "Bookmark"}}" data-label="" aria-label="{{t "Bookmark"}}">
+    {{>icon name="bookmark" size="sm"}}
+  </button>
+</div>
+
+{{#contentFor "scripts"}}
+  <script>
+    // Check if current post is bookmarked
+    const bookmarkBtn = document.querySelector('.js-handle-bookmark');
+    if (bookmarkBtn) {
+      bookmarkBtn.onclick = function(event) {
+        handleBookmark(event);
+      }
+    }
+    let bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
+    let bookmarked = bookmarks.some(function(i) { return i.id.includes('{{comment_id}}')});
+    bookmarked ? bookmarkBtn.classList.add('is-saved') : '';
+
+    /** 
+    * Handle bookmark
+    * @id - Post ID
+    * @url - Post url
+    * @title - Post title
+    */ 
+    const handleBookmark = function(event) {
+      // Save input values in an object
+      let bookmarkObject = {
+        id: event.currentTarget.getAttribute('data-id'),
+        url: event.currentTarget.getAttribute('data-url'),
+        title: event.currentTarget.getAttribute('data-title')
+      }
+
+      if (bookmarked) { 
+        // Remove bookmark
+        const index = bookmarks.findIndex( function(b) { b.id == bookmarkObject.id });
+        bookmarks.splice(index, 1);
+        localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+        localStorage
+        bookmarked = false;
+        bookmarkBtn.classList.remove('is-saved'); 
+        bookmarkBtn.setAttribute('data-label', GLOBAL.REMOVE_BOOKMARK_MSG);   
+      } else { 
+        // Add bookmark
+        bookmarks.push(bookmarkObject);
+        localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+        bookmarked = true;
+        bookmarkBtn.classList.add('is-saved');  
+        bookmarkBtn.setAttribute('data-label', GLOBAL.ADD_BOOKMARK_MSG);  
+      }
+
+      bookmarkBtn.classList.add('has-tooltip'); 
+      bookmarkBtn.blur();
+
+      setTimeout(function(){
+        bookmarkBtn.classList.remove('has-tooltip');
+      }, 1000); 
+    };    
+    
+    const copyBtn = document.querySelector('.js-copy-link');
+    if (copyBtn) {
+      copyBtn.onclick = function(event) {
+        copyToClipboard(event.currentTarget, event.currentTarget.getAttribute('data-url'));
+      }
+    }
+    
+    /** 
+    * Copy to clipboard
+    * @src - source element
+    * @str - string to copy
+    */ 
+    const copyToClipboard = function(src, str) {
+      const el = document.createElement('textarea');
+      el.value = str;
+      el.setAttribute('readonly', '');
+      el.style.position = 'absolute';
+      el.style.left = '-9999px';
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+
+      src.classList.add('has-tooltip');
+      src.setAttribute('data-label', 'Copied!');
+
+      src.onmouseleave = function() { 
+        src.classList.remove('has-tooltip');
+        setTimeout(function(){
+          src.setAttribute('data-label', '');
+        }, 500); 
+      }
+    };
+
+    // General share settings
+    const shareBtns = document.querySelectorAll('.js-share');
+    if (shareBtns) {
+      shareBtns.forEach(shareBtn = function() {
+        shareBtn.onclick = function(event) {
+          socialShare(event.currentTarget.getAttribute('href'));
+        }
+      });
+    }
+
+    /** 
+    * Social Share
+    * @src - source element
+    * @str - string to copy
+    */ 
+    const socialShare = function(href) {
+      window.open(href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=290,width=580');
+      return false;
+    }
+  </script>
+{{/contentFor}}

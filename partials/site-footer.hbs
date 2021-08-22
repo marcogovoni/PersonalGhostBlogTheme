@@ -1,0 +1,61 @@
+{{!-- Site footer --}}
+<footer class="footer">
+  <div class="container wrapper">
+    {{!-- Footer subscription --}}
+    {{#unless @member}}
+      <div class="footer__sub p-t-xl p-b-xl border-bottom-1">
+        <div class="row">
+          <div class="col-xs-12 col-md-6 footer__sub-text">
+            <h3 class="m-b-0">{{t "Ready to get started now?"}}</h3>
+            <div>{{t "Subscribe to get access to premium content or contact us if you have any questions."}}</div>
+          </div>
+          <div class="col-xs-12 col-md-6">
+            <div class="flex footer__sub-action">
+              <a href="/membership/" class="btn btn--brand btn--rounded m-r">{{t "Subscribe"}}</a>
+              <a href="/contact/" class="btn btn--bordered btn--rounded">{{t "Contact us"}}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    {{/unless}}
+
+    {{!-- Footer top --}}
+    <div class="footer__top p-t-lg p-b border-bottom-1 text-acc-1">
+      <div class="row">
+        <div class="col-xs-12 col-md-4 m-b-sm">
+          <div class="footer__title">{{@site.title}}</div>
+          <div class="m-b text-acc-3">{{@site.description}}</div>
+          {{> social-links}}
+        </div>
+        <div class="col-xs-12 col-md-2 m-b-sm">
+        </div>
+        <div class="col-xs-12 col-md-2 m-b-sm">
+          <div class="footer__title">{{t "Navigation"}}</div>
+          {{navigation show_icon=false}}
+        </div>
+        <div class="col-xs-12 col-md-2 m-b-sm">
+          {{#if @site.secondary_navigation}}
+            <div class="footer__title">{{t "Quick links"}}</div>
+            {{navigation show_icon=false type="secondary"}}
+          {{/if}}
+        </div>
+        <div class="col-xs-12 col-md-2 m-b-sm">
+          <div class="footer__title">{{t "Tags"}}</div>
+          {{#get "tags" include="count.posts" order="count.posts desc" limit="5"}}
+            <div class="footer__tags text-acc-3 flex flex-col m-b">
+              {{#foreach tags}}
+                <a href="{{url}}">{{name}}</a>
+              {{/foreach}}
+            </div>
+          {{/get}}
+        </div>
+      </div>
+    </div>
+
+    {{!-- Footer Bottom --}}
+    <div class="footer__bottom text-center">
+      <span>&copy;{{date format="YYYY"}}&nbsp;<a href="{{@site.url}}">{{@site.title}}</a>.</span>
+      <span>{{t "Published with"}}&nbsp;<a href="https://ghost.org">Ghost</a> &&nbsp;<a href="https://bironthemes.com/themes/dashi-ghost/">Dashi</a>.</span>
+    </div>
+  </div>
+</footer>

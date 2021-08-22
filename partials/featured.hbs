@@ -1,0 +1,47 @@
+{{!-- Featured posts --}}
+{{#get "posts" filter="featured:true" limit="all" as |featured|}}
+  {{#if posts}}
+  <div class="featured-wrapper bg-default m-b-lg">
+    <div class="featured-control flex items-center m-b">
+      <span class="featured-descr flex-1 fw-600 text-acc-3 text-lg flex items-center">
+        {{t "Featured posts"}}{{>icon name="star" size="xs"}}
+      </span>
+      <button class="p-sm m-r-xs js-featured-prev bg-acc-2" 
+        aria-label="{{t "Previous"}}" title="{{t "Previous"}}">
+        {{> icon name="chevron-left" size="sm"}}
+      </button>
+      <button class="p-sm js-featured-next bg-acc-2" 
+        aria-label="{{t "Next"}}" title="{{t "Next"}}">
+        {{> icon name="chevron-right" size="sm"}}
+      </button>
+    </div>
+    <div class="featured-feed js-featured-feed">
+      {{#foreach featured}}
+        <div class="featured-card">
+          <div class="flex flex-col">
+            {{!-- Feature Image --}}
+            {{#if feature_image}}
+              <a class="post-card__media m-b-sm" href="{{url}}" title="{{title}}" aria-label="{{title}}">
+                <img class="lazyload"
+                  data-srcset="{{img_url feature_image size="s"}} 300w,
+                          {{img_url feature_image size="m"}} 600w"
+                  srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                  data-sizes="auto"
+                  data-src="{{img_url feature_image size="s"}}"
+                  src="{{img_url feature_image size="xxs"}}"
+                  alt="{{title}}"
+                />
+              </a>
+            {{/if}}
+
+            {{!-- Post Title --}}
+            <h2 class="fw-600 m-b-0 text-acc-1 text-xl">
+              <a href="{{url}}" aria-label="{{title}}">{{title}}</a>
+            </h2>
+          </div>
+        </div>
+      {{/foreach}}
+    </div>
+  </div>
+  {{/if}}
+{{/get}}

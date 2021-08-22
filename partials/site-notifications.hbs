@@ -1,0 +1,121 @@
+<div class="notifications">
+  {{!-- Sign up --}}
+  <a tabindex="0" class="notify notify-signup js-notify-close" 
+    href="javascript:;" data-class="signup-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">{{t "Great! Next, complete checkout for full access to {sitetitle}." sitetitle=@site.title}}</div> 
+      <span class="notify__close">{{>icon name="x" size="xs"}}</span>
+    </div>
+  </a>
+
+  {{!-- Signin --}}
+  <a tabindex="0" class="notify notify-signin js-notify-close" 
+    href="javascript:;" data-class="signin-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">{{t "Welcome back! You've successfully signed in."}}</div> 
+      <span class="notify__close">{{>icon name="x" size="xs"}}</span>
+    </div>
+  </a>
+
+  {{!-- Subscribe --}}
+  <a tabindex="0" class="notify notify-subscribe js-notify-close" 
+    href="javascript:;" data-class="subscribe-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">{{t "You've successfully subscribed to {sitetitle}." sitetitle=@site.title}}</div> 
+      <span class="notify__close">{{>icon name="x" size="xs"}}</span>
+    </div>
+  </a>
+
+  {{!-- Checkout --}}
+  <a tabindex="0" class="notify notify-checkout js-notify-close" 
+    href="javascript:;" data-class="checkout-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">{{t "Success! Your account is fully activated, you now have access to all content."}}</div> 
+      <span class="notify__close">{{>icon name="x" size="xs"}}</span>
+    </div>
+  </a>
+
+  {{!-- Billing --}}
+  <a tabindex="0" class="notify notify-billing-success js-notify-close" 
+    href="javascript:;" data-class="billing-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">{{t "Success! Your billing info has been updated."}}</div> 
+      <span class="notify__close">{{>icon name="x" size="xs"}}</span>
+    </div>
+  </a>
+
+  {{!-- Billing cancel --}}
+  <a tabindex="0" class="notify notify-billing-cancel js-notify-close" 
+    href="javascript:;" data-class="billing-cancel">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">{{t "Your billing was not updated."}}</div> 
+      <span class="notify__close">{{>icon name="x" size="xs"}}</span>
+    </div>
+  </a>
+</div>
+
+{{#contentFor "scripts"}}
+  <script>
+    // Give the parameter a variable name
+    const action = getParameterByName('action');
+    const stripe = getParameterByName('stripe');
+
+    switch (action) {
+      case 'subscribe':
+        document.body.classList.add('subscribe-success')
+        break;
+      case 'signup': 
+        window.location = '/signup/?action=checkout';
+        break;
+      case 'checkout':
+        document.body.classList.add('signup-success');
+        break;
+      case 'signin':
+        document.body.classList.add('signin-success');
+        break;
+      default:
+        break;
+    }
+
+    switch (stripe) {
+      case 'success':
+        document.body.classList.add('checkout-success');
+        break;
+      case 'billing-update-success':
+        document.body.classList.add('billing-success');
+        break;
+      case 'billing-update-cancel':
+        document.body.classList.add('billing-cancel');
+        break;
+      default:
+        break;
+    }
+
+    /**
+    * Members Parse the URL parameter
+    * @param {string} name - The parameter name
+    * @param {string} url - The URL
+    * @param {string} action - Name of the action
+    */
+    function getParameterByName(name, url) {
+      if (!url) url = window.location.href;
+      name = name.replace(/[\[\]]/g, '\\$&');
+      var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+          results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+    
+    /**
+    * Clean URI
+    */
+    function clearURI() {
+      var uri = window.location.toString();
+      if (uri.indexOf("?") > 0) {
+        var clean_uri = uri.substring(0, uri.indexOf("?"));
+        window.history.replaceState({}, document.title, clean_uri);
+      }
+    }
+  </script>
+{{/contentFor}}

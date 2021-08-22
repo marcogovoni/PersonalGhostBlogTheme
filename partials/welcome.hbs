@@ -1,0 +1,111 @@
+<div class="welcome flex items-center m-b-lg{{#if cover-is-bg}} has-bg{{/if}}">
+  {{#if @member.paid}}
+    {{!-- Content for logged in Paid member --}}
+    <a href="/account/" class="welcome__profile flex flex-cc" 
+      title="{{#if @member.name}}{{@member.name}}{{else}}{{@member.email}}{{/if}}" 
+      aria-label="{{#if @member.name}}{{@member.name}}{{else}}{{@member.email}}{{/if}}">
+      {{#if @member.avatar_image}}
+        <img src="{{@member.avatar_image}}"/>
+        <span class="name-letter">{{#if @member.name}}{{@member.name}}{{else}}{{@member.email}}{{/if}}</span>
+      {{/if}}
+    </a>
+    <div class="welcome__content flex-1">
+      <h1 class="welcome__title fw-600">{{t "Welcome back"}}{{#if @member.name}}, {{@member.name}}{{/if}}!</h1>
+      <div class="welcome__descr m-b">
+        {{t "You're all set, but if you need any help, get in touch with us and we'd be happy to help."}}
+      </div>
+      <a href="/account/" class="btn btn--light btn--rounded btn--xs">{{t "Account"}}</a>
+    </div>
+
+  {{else if @member}}
+    {{!-- Content for logeed in Free member --}}
+    <a href="/account/" class="welcome__profile flex flex-cc" 
+      title="{{#if @member.name}}{{@member.name}}{{else}}{{@member.email}}{{/if}}" 
+      aria-label="{{#if @member.name}}{{@member.name}}{{else}}{{@member.email}}{{/if}}">
+      {{#if @member.avatar_image}}
+        <img src="{{@member.avatar_image}}" alt="{{#if @member.name}}{{@member.name}}{{else}}{{@member.email}}{{/if}}"/>
+        <span class="name-letter">{{#if @member.name}}{{@member.name}}{{else}}{{@member.email}}{{/if}}</span>
+      {{/if}}
+    </a>
+    <div class="welcome__content flex-1">
+      <h1 class="welcome__title fw-600">{{t "Welcome back"}}{{#if @member.name}}, {{@member.name}}{{/if}}!</h1>
+      <div class="welcome__descr m-b">
+        {{t "Unlock full access to see the entire library by subscribing to a paid plan."}}
+      </div>
+      <a href="/account/" class="btn btn--light btn--rounded btn--xs">{{t "Upgrade"}}</a>
+    </div>
+
+  {{else}} 
+    {{!-- Content for not logged in Regular users --}}
+    {{#if cover-is-bg}}
+      {{#if @site.cover_image}}
+        <figure class="welcome__media">
+          <img class="lazyload{{#if cover-is-bg}} is-bg{{/if}}" 
+              data-srcset="{{img_url @site.cover_image size="xs"}} 100w,
+                      {{img_url @site.cover_image size="s"}} 300w,
+                      {{img_url @site.cover_image size="m"}} 600w,
+                      {{img_url @site.cover_image size="l"}} 1000w"
+              srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+              data-sizes="auto"
+              data-src="{{img_url @site.cover_image size="s"}}"
+              src="{{img_url @site.cover_image size="xxs"}}"
+              alt="{{t "Join the community!"}}"/>
+        </figure>
+      {{/if}}
+    {{else}}
+      <figure class="welcome__profile">
+        <img class="lazyload" 
+            data-srcset="{{img_url @site.cover_image size="xs"}} 100w,
+                    {{img_url @site.cover_image size="s"}} 300w"
+            srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+            data-sizes="auto"
+            data-src="{{img_url @site.cover_image size="s"}}"
+            src="{{img_url @site.cover_image size="xxs"}}"
+            alt="{{t "Join the community!"}}"/>
+      </figure>
+    {{/if}}
+
+    {{!-- The main content --}}
+    <div class="welcome__content flex-1">
+      <h1 class="welcome__title fw-600">{{t "Join the community!"}}</h1>
+      <div class="welcome__descr">
+        {{!-- You can add your own text here --}}
+        {{@site.description}}
+      </div>
+      <a href="/membership/" class="btn btn--light btn--rounded btn--xs">{{t "Learn more"}}</a>
+    </div>
+    
+    {{!-- Site stats --}}
+    {{#if show_stats}}
+      <div class="welcome__figures">
+        {{#get "posts" limit="1" filter="visibility:public"}}
+          <div class="welcome__stat">
+            <span class="welcome__count">{{pagination.total}}</span> 
+            <span class="welcome__count-descr">{{t "Public posts"}}</span>
+          </div>
+        {{/get}}
+
+        {{#get "posts" limit="1" filter="visibility:members"}}
+          <div class="welcome__stat">
+            <span class="welcome__count">{{pagination.total}}</span> 
+            <span class="welcome__count-descr">{{t "Members posts"}}</span>
+          </div>
+        {{/get}}
+
+        {{#get "posts" limit="1" filter="visibility:paid"}}
+          <div class="welcome__stat">
+            <span class="welcome__count">{{pagination.total}}</span> 
+            <span class="welcome__count-descr">{{t "Premium posts"}}</span>
+          </div>
+        {{/get}}
+
+        {{#get "posts" limit="1"}}
+          <div class="welcome__stat">
+            <span class="welcome__count">{{pagination.total}}</span> 
+            <span class="welcome__count-descr">{{t "Total posts"}}</span>
+          </div>
+        {{/get}}
+      </div>
+    {{/if}}
+  {{/if}}
+</div>

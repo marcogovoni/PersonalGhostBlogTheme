@@ -1,0 +1,45 @@
+{{!-- Blog menu --}}
+<nav class="menu js-menu">
+  {{!-- Main navigation --}}
+  {{navigation show_icon=true}}
+
+  {{!-- Secondary navigation --}}
+  {{#if @site.secondary_navigation}}
+    {{navigation show_icon=true type="secondary"}}
+  {{/if}}
+  
+  <span class="flex-1"></span>
+
+  {{!-- Bookmarks --}}
+  <a href="/bookmarks/" class="btn-toggle btn-bookmarks" tabindex="0"
+      title="{{t "Bookmarks"}}" aria-label="{{t "Bookmarks"}}">
+    <span class="btn-toggle-icons">
+      {{>icon name="bookmark" size="xs"}}
+    </span>
+    <span>{{t "Bookmarks"}}</span>
+  </a>
+
+  {{!-- Grid/List View --}}
+  {{#is "home, tag, author"}}
+    <button class="btn-toggle btn-view-toggle js-view-toggle" tabindex="0" 
+      title="{{t "View Toggle"}}" aria-label="{{t "View Toggle"}}">
+      <span class="btn-toggle-icons">
+        {{>icon name="grid" size="xs"}}
+        {{>icon name="list" size="xs"}}
+      </span>
+      <span>{{t "View"}}</span>
+    </button>
+  {{/is}}
+
+  {{!-- Color scheme picker --}}
+  <button class="btn-toggle btn-theme-toggle js-theme-toggle" tabindex="0" 
+    title="{{t "Theme color scheme"}}" aria-label="{{t "Theme color scheme"}}">
+    <span class="btn-toggle-icons">
+      {{>icon name="settings" size="xs"}}
+    </span>
+    <span>{{t "Theme"}}</span>
+  </button>
+
+  {{!-- Color Scheme Picker --}}
+  {{> theme-color-scheme }}
+</nav>

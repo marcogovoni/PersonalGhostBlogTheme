@@ -1,0 +1,127 @@
+<aside class="sidebar">
+  {{!-- Subscribe--}}
+  {{#is "post"}}
+    {{#if @member.paid}}
+    {{else if @member}}
+      <div class="sidebar__section p-xs bg-gradient shadow">
+        <div class="sidebar__subscribe flex flex-col bg-default">
+          <h4 class="text-center text-xl text-acc-1">{{t "Premium Membership"}}</h4>
+          <div class="m-b text-acc-3">{{t "Unlock full access to see the entire library by subscribing to a paid plan."}}</div> 
+          <a href="/membership/" class="btn btn--primary btn--rounded btn--xs self-align-center">{{t "Upgrade"}}</a>
+        </div>
+      </div>
+    {{else}}
+      <div class="sidebar__section p-xs bg-gradient shadow">
+        <div class="sidebar__subscribe bg-default">
+          <h4 class="text-center text-acc-1">{{@site.title}} {{t "Newsletter"}}</h4>
+          <div class="m-b text-acc-3">{{t "Get the latest insights directly to your inbox!"}}</div>
+          {{> subscribe-form}}
+        </div>
+      </div>
+    {{/if}}
+  {{/is}}
+
+  {{!-- Sidebar featured posts --}}
+  {{#is "post"}}
+    {{#get "posts" filter="featured:true+id:-{{id}}" limit="3" include="authors,tags" as |featured|}}
+      {{#if featured}}
+      <div class="sidebar__section shadow">
+        <div class="section__title">{{t "Featured posts"}}</div>
+        <span class="special-delimiter m-t m-b"></span>
+        {{#foreach featured}}
+          <article class="sidebar-story">
+            <h6 class="sidebar-story__title">
+              <a href="{{url}}">{{{title}}}</a>
+            </h6>
+            {{#if feature_image}}
+              <a href="{{url}}" class="sidebar-story__media m-l">
+                <img 
+                  class="lazyload" 
+                  data-sizes="auto"
+                  data-src="{{img_url feature_image size="xs"}}"
+                  src="{{img_url feature_image size="xxs"}}"
+                  alt="{{title}}" 
+                />
+              </a>
+            {{/if}}
+          </article>
+        {{/foreach}}
+      </div>
+      {{/if}}
+    {{/get}}
+  {{/is}}
+
+  {{!-- Post counter --}}
+  {{^is "post"}}
+    <div class="sidebar__section shadow">
+      <div class="section__title">{{t "Total posts"}}</div>
+      <span class="special-delimiter m-t m-b"></span>
+      {{#get "posts"}}
+        <span class="sidebar-story__counter js-post-counter">{{pagination.total}}</span>
+      {{/get}}
+    </div>
+  {{/is}}
+
+  {{!-- Tags --}}
+  <div class="sidebar__section shadow">
+    <div class="section__title">{{t "Explore topics"}}</div>
+    <span class="special-delimiter m-t m-b"></span>
+    {{#get "tags" limit="20" include="count.posts" order="count.posts desc"}}
+      <div class="tag-list flex flex-wrap">
+        {{#foreach tags}}
+          <a class="tag-{{slug}} tag-list__item m-b-sm m-r-sm{{#if accent_color}} has-accent flex flex-cc{{/if}}" 
+            href="{{url}}" title="{{name}}" aria-label="{{name}}">
+            {{#if accent_color}}
+              <span class="tag-list__item--accent" style="background-color: {{accent_color}}"></span>
+            {{/if}}
+            {{name}}
+          </a>
+        {{/foreach}}
+      </div>
+    {{/get}}
+  </div>
+
+  {{!-- Sidebar latest posts --}}
+  {{#is "post"}}
+    {{#get "posts" filter="featured:false+id:-{{id}}" limit="3" include="authors,tags" as |latest|}}
+      {{#if posts}}
+      <div class="sidebar__section shadow">   
+        <div class="section__title">{{t "Latest posts"}}</div>   
+        <span class="special-delimiter m-t m-b"></span>
+        {{#foreach latest}}
+          <article class="sidebar-story">
+            <h6 class="sidebar-story__title">
+              <a href="{{url}}">{{{title}}}</a>
+            </h6>
+            {{#if feature_image}}
+              <a href="{{url}}" class="sidebar-story__media m-l">
+                <img 
+                  class="lazyload" 
+                  data-sizes="auto"
+                  data-src="{{img_url feature_image size="xs"}}"
+                  src="{{img_url feature_image size="xxs"}}"
+                  alt="{{title}}"
+                />
+              </a>
+            {{/if}}
+          </article>
+        {{/foreach}}
+      </div>
+      {{/if}}
+    {{/get}}
+  {{/is}}
+
+  {{!-- Sidebar authors --}}
+  {{^is "post"}}
+    {{#get "authors" include="count.posts" order="count.posts desc" limit="6"}}
+      <div class="section__title m-t m-b">{{t "Authors"}}</div>
+      <div class="row">
+        {{#foreach authors}}
+          <div class="col-xs-12 m-b-lg">
+            {{> author-card type="mini" mini=true}}
+          </div>
+        {{/foreach}}
+      </div>
+    {{/get}}
+  {{/is}}
+</aside>

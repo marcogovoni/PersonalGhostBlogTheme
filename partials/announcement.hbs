@@ -1,0 +1,21 @@
+{{!-- Announcement posts --}}
+{{#get "posts" filter="tag:hash-announcement" limit="3" as |announce|}}
+  {{#if announce}}
+    <div class="announcements">
+      <button class="announce--toggle flex-cc js-announce-btn" type="button" 
+        title="{{t "Announcements"}}" aria-label="{{t "Announcements"}}">
+        {{> icon name="bell" size="sm"}}
+      </button>
+
+      <div class="announce-feed js-announce-feed">
+        {{#foreach announce}}
+          {{#link href=(url) class="announce-post"}}
+            <h3 class="announce-post__title">{{title}}</h3>
+            <div class="announce-post__description text-acc-3">{{excerpt words="12"}}&hellip;</div>
+            <span class="text-acc-3">{{t "Learn more"}} ⟶</span>
+          {{/link}}
+        {{/foreach}}
+      </div>
+    </div>
+  {{/if}}
+{{/get}}

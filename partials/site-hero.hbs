@@ -1,0 +1,60 @@
+<div class="hero{{#unless feature_image}} no-img{{/unless}}{{#if featured}} is-featured{{/if}}">
+  <div class="hero__content flex flex-col flex-cc m-b-lg">
+    {{!-- Tags --}}
+    {{#is "post"}}
+      <div class="tag-list flex flex-wrap m-b-sm">
+        {{#foreach tags}}
+          <a class="tag-{{slug}} tag-list__item{{^if @first}} m-l-sm{{/if}}{{#if accent_color}} has-accent flex flex-cc{{/if}}" 
+            href="{{url}}" title="{{name}}" aria-label="{{name}}">
+            {{#if accent_color}}
+              <span class="tag-list__item--accent" style="background-color: {{accent_color}}"></span>
+            {{/if}}
+            {{name}}
+          </a>
+        {{/foreach}}
+      </div>
+    {{/is}}
+
+    {{!-- Title --}}
+    <h1 class="hero__title text-center{{#is "page"}} m-b-0{{/is}}">{{title}}</h1>
+
+    {{!-- Date and reading --}}
+    {{#is "post"}}
+      <div class="flex flex-cc text-acc-3 fw-500">
+        <span>{{date published_at timeago=""}}</span>
+        <span class="m-l-sm m-r-sm">&mdash;</span>
+        <span>{{reading_time minute=(t "1 min read") minutes=(t "% min read")}}</span>
+        {{#if featured}}
+          <span class="featured m-l-sm">{{> icon name="star" size="xs" }}</span>
+        {{/if}}
+      </div>
+    {{/is}}
+
+    {{#is "page"}}
+      {{#if custom_excerpt}}
+        <div class="page__excerpt m-t text-acc-3 text-center text-lg">{{custom_excerpt}}</div>
+      {{/if}}
+    {{/is}}
+  </div>
+
+  {{!-- Image --}}
+  {{#if feature_image}}
+    <div class="hero__media m-b-lg{{#if wide_img}} wide{{/if}}">
+      <figure class="hero__figure">
+        <img
+          class="lazyload hero__img"
+          data-srcset="{{img_url feature_image size="s"}} 300w,
+                  {{img_url feature_image size="m"}} 600w,
+                  {{img_url feature_image size="l"}} 1000w,
+                  {{img_url feature_image size="xl"}} 2000w"
+          srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+          data-sizes="auto"
+          data-src="{{img_url feature_image size="s"}}"
+          src="{{img_url feature_image size="xs"}}"
+          alt="{{title}}"
+        />
+        <figcaption></figcaption>
+      </figure>
+    </div>
+  {{/if}}
+</div>

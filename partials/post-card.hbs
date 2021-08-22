@@ -1,0 +1,88 @@
+{{!-- Post Card --}}
+<article class="card post-card{{^if feature_image}} no-img{{/if}}{{#if featured}} is-featured{{/if}} {{post_class}}{{#if class}} {{class}}{{/if}} js-post-card"> 
+
+  {{!-- Feature Image --}}
+  {{#if show_img}}
+    {{#if feature_image}}
+      <a class="post-card__media" href="{{url}}" title="{{title}}" aria-label="{{title}}">
+        <img class="lazyload post-card__img"
+          data-srcset="{{img_url feature_image size="s"}} 300w,
+                  {{img_url feature_image size="m"}} 600w"
+          srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+          data-sizes="auto"
+          data-src="{{img_url feature_image size="s"}}"
+          src="{{img_url feature_image size="xxs"}}"
+          alt="{{title}}"
+        />
+      </a>
+    {{/if}}
+  {{/if}}
+
+  <div class="post-card__content">
+    {{!-- Post Card tags --}}
+    {{#if primary_tag}}
+      <div class="tag-list flex flex-wrap m-b-sm">
+        {{#foreach tags to="3"}}
+          <a class="tag-{{slug}} tag-list__item{{#unless @last}} m-r-sm{{/unless}}{{#if accent_color}} has-accent flex flex-cc{{/if}}" 
+            href="{{url}}" aria-label="{{name}}">
+            {{#if accent_color}}<span class="tag-list__item--accent" style="background-color: {{accent_color}}"></span>{{/if}}{{name}}
+          </a>
+        {{/foreach}}
+      </div>
+    {{/if}}
+
+    {{!-- Post Card Title --}}
+    <h2 class="post-card__title">
+      <a href="{{url}}" aria-label="{{title}}">{{title}}</a>
+    </h2>
+
+    {{!-- Post Card details  --}}
+    <div class="post-card__details flex items-center m-b">
+      <span class="visibility m-r">{{visibility}}</span>
+      <span class="m-r fw-400">&ndash;</span>
+      <span class="read-time">{{reading_time minute=(t "1 min read") minutes=(t "% min read")}}</span>
+      {{#if featured}}
+        <span class="featured m-l">{{> icon name="star" size="xs" }}</span>
+      {{/if}}
+    </div>
+
+    {{!-- Post card excerpt --}}
+    <div class="post-card__exc m-b">
+      {{#if custom_excerpt}} 
+        {{custom_excerpt}} 
+      {{else}}
+        {{excerpt words="20"}}&hellip;
+      {{/if}}
+    </div>
+
+    <div class="flex-1"></div>
+
+    <div class="post-card__ftr">      
+      <time datetime="{{date format='YYYY-MM-DD'}}" class="post-card__date flex-1">
+        {{date published_at timeago=""}}
+      </time>
+
+      {{!-- Post card Author/s --}}
+      <div class="author-mini flex items-center">
+        {{#foreach authors}}
+          <a href="{{url}}" class="author-mini__item{{#if profile_image}} has-img {{else}} has-icon{{/if}} nr-{{@number}}" 
+            title="{{name}}" aria-label="{{name}}">
+            <span class="author-mini__tooltip">{{name}}</span>
+            {{#if profile_image}}
+              <img 
+                class="lazyload author-mini__img" 
+                data-sizes="auto"
+                data-src="{{img_url profile_image size="xs"}}" 
+                src="{{img_url profile_image size="xxs"}}" 
+                alt="{{name}}" 
+              />
+            {{else}}
+              <span class="author-mini__letter">{{name}}</span>
+            {{/if}}
+          </a>
+        {{/foreach}}
+      </div>
+    </div>
+  </div>
+
+</article>

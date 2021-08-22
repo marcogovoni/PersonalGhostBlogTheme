@@ -1,0 +1,8 @@
+{{!-- Icon partial to include icons easily --}}
+{{#with (concat 'menu-icons/' name) as | icon |}}
+  <i class="icon{{#if ../name}} icon-{{../name}}{{/if}}{{#if ../size}} icon--{{../size}}{{/if}}">
+    {{#> (icon)}}
+      {{!-- return nothing if icon is not found --}}
+    {{/undefined}}
+  </i>
+{{/with}}

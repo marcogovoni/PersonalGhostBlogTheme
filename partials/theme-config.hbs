@@ -1,0 +1,159 @@
+<script>
+  // Basic Config
+  let CONFIG = {
+    /* Replace it with your domain: ghost_host: 'https://yoursite.domain' */
+    GHOST_URL: 'https://marcogovoni.it', 
+    
+    /* Settings > Integrations > New Custom Integration. Copy Key. Replace GHOST_KEY below. */
+    GHOST_KEY: 'f0712360dbb5ca987f23ecf80b', 
+
+    /* Ghost version: v4 or v3 */
+    GHOST_VERSION: 'v4',
+
+    /* Search result limit */
+    GHOST_SEARCH_LIMIT: 8,
+
+    /* Default view of posts: list/grid. */
+    DEFAULT_VIEW_TYPE: 'grid',
+
+    /* Nr of columns for post cards. Possible values 2 or 3. */
+    DEFAULT_GRID_COLUMNS: 3,
+
+    /* Default Color Scheme. Values: preference(detects user setting), light, dark. */
+    DEFAULT_COLOR_SCHEME: 'whitesmoke',
+
+    /* Enable Color cheme picker */
+    ENABLE_COLOR_SCHEME_PICKER: false,
+
+    /* Enable lightbox for post images */
+    ENABLE_IMAGE_LIGHTBOX: true,
+
+    /* Enable Scroll Top Button */
+    ENABLE_SCROLL_TO_TOP: false,
+
+    /* Enable filter feature on homepage */
+    ENABLE_FILTER: true,
+
+    /* Enable hyphens */
+    ENABLE_HYPHENS: false,
+
+    /* Enable PWA - Progressive Web App */
+    ENABLE_PWA: true,
+
+    /* Enable Sticky Header */
+    ENABLE_STICKY_HEADER: true,
+
+    /* Replace 'biron-demo' with your disqus account shortname */
+    DISQUS_SHORTNAME: 'marco_govoni',
+
+    /* To use Cove, replace the below id with your cove publication id*/
+    COVE_ID: '2518edd2a7b49e89bd766aa39b947663',
+
+    /* Open external links in posts in a new tab */
+    OPEN_LINKS_IN_NEW_TAB: true
+  }
+
+  // Color schemes, you can either modify the existing ones or add new ones
+  const COLOR_SCHEMES = [
+    {
+      "id": "light",
+      "name": "Light",
+      "colors": {
+        "primary": "hsl(253,91%,64%)",
+        "primary_dark": "hsl(253,91%,67%)",
+        "primary_light": "hsl(253,91%,61%)",
+        "secondary": "hsl(20, 92%, 60%)",
+        "secondary_dark": "hsl(20, 92%, 63%)",
+        "secondary_light": "hsl(20, 92%, 57%)",
+        "text": "hsl(0, 0%, 10%)",
+        "text_acc_1": "hsl(0, 0%, 20%)",
+        "text_acc_2": "hsl(0, 0%, 30%)",
+        "text_acc_3": "hsl(0, 0%, 40%)",
+        "text_reverse": "hsl(0, 0%, 90%)",
+        "bg": "hsl(0, 100%, 100%)",
+        "bg_body": "hsl(219,23%,97%)",
+        "bg_acc_1": "hsl(0, 0%, 98%)",
+        "bg_acc_2": "hsl(0, 0%, 96%)",
+        "bg_acc_3": "hsl(0, 0%, 94%)",
+        "bg_reverse": "hsl(0, 0%, 10%)",
+        "neutral": "hsl(0, 0%, 50%)",
+        "border": "hsl(0, 0%, 95%)"
+      }
+    },
+    {
+      "id": "dark",
+      "name": "Dark",
+      "colors": {
+        "primary": "hsl(253,91%,64%)",
+        "primary_dark": "hsl(253,91%,67%)",
+        "primary_light": "hsl(253,91%,61%)",
+        "secondary": "hsl(20, 92%, 60%)",
+        "secondary_dark": "hsl(20, 92%, 63%)",
+        "secondary_light": "hsl(20, 92%, 57%)",
+        "text": "hsl(0, 0%, 90%)",
+        "text_acc_1": "hsl(0, 0%, 80%)",
+        "text_acc_2": "hsl(0, 0%, 70%)",
+        "text_acc_3": "hsl(0, 0%, 60%)",
+        "text_reverse": "hsl(0, 0%, 10%)",
+        "bg": "hsl(0, 0%, 8%)",
+        "bg_body": "hsl(0, 0%, 3%)",
+        "bg_acc_1": "hsl(0, 0%, 10%)",
+        "bg_acc_2": "hsl(0, 0%, 12%)",
+        "bg_acc_3": "hsl(0, 0%, 15%)",
+        "bg_reverse": "hsl(0, 0%, 90%)",
+        "neutral": "hsl(0, 0%, 50%)",
+        "border": "hsl(0, 0%, 15%)"
+      }
+    }, 
+    {
+      "id": "whitesmoke",
+      "name": "Whitesmoke",
+      "colors": {
+        "primary": "hsl(354, 81%, 65%)",
+        "primary_dark": "hsl(354, 81%, 62%)",
+        "primary_light": "hsl(354, 81%, 68%)",
+        "secondary": "hsl(185, 54%, 45%)",
+        "secondary_dark": "hsl(185, 54%, 42%)",
+        "secondary_light": "hsl(185, 54%, 48%)",
+        "text": "hsl(34, 36%, 10%)",
+        "text_acc_1": "hsl(34, 36%, 20%)",
+        "text_acc_2": "hsl(34, 36%, 30%)",
+        "text_acc_3": "hsl(34, 36%, 40%)",
+        "text_reverse": "hsl(34, 36%, 90%)",
+        "bg": "hsl(34, 36%, 96%)",
+        "bg_body": "hsl(34, 36%, 93%)",
+        "bg_acc_1": "hsl(34, 36%, 90%)",
+        "bg_acc_2": "hsl(34, 36%, 88%)",
+        "bg_acc_3": "hsl(34, 36%, 85%)",
+        "bg_reverse": "hsl(34, 36%, 10%)",
+        "neutral": "hsl(34, 36%, 50%)",
+        "border": "hsl(34, 36%, 85%)"
+      }
+    }, 
+    {
+      "id": "midnight",
+      "name": "Midnight",
+      "colors": {
+        "primary": "hsl(309, 52%, 50%)",
+        "primary_dark": "hsl(309, 52%, 47%)",
+        "primary_light": "hsl(309, 52%, 53%)",
+        "secondary": "hsl(56, 88%, 60%)",
+        "secondary_dark": "hsl(56, 88%, 57%)",
+        "secondary_light": "hsl(56, 88%, 63%)",
+        "text": "hsl(250, 63%, 90%)",
+        "text_acc_1": "hsl(250, 63%, 85%)",
+        "text_acc_2": "hsl(250, 63%, 80%)",
+        "text_acc_3": "hsl(250, 63%, 75%)",
+        "text_reverse": "hsl(250, 63%, 10%)",
+        "bg": "hsl(250, 63%, 10%)",
+        "bg_body": "hsl(250, 63%, 5%)",
+        "bg_acc_1": "hsl(250, 63%, 15%)",
+        "bg_acc_2": "hsl(250, 63%, 20%)",
+        "bg_acc_3": "hsl(250, 63%, 25%)",
+        "bg_reverse": "hsl(250, 63%, 90%)",
+        "neutral": "hsl(250, 63%, 50%)",
+        "border": "hsl(250, 63%, 23%)"
+      }
+    } 
+  ];
+</script>

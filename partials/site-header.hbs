@@ -1,0 +1,82 @@
+{{!-- Site header --}}
+<header class="header">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 header__left flex items-center">
+        {{!-- Site logo or title --}}
+        {{#link class="header__brand" href=@site.url}}
+          {{#if @site.logo}}
+            {{!-- Site logo --}}
+            <img class="header__logo"
+              src="{{img_url @site.logo size="s"}}"
+              alt="{{@site.title}}"/>
+          {{else}}
+            {{!-- Site Title --}}
+            <span class="header__title m-0">{{@site.title}}</span>
+          {{/if}}
+        {{/link}}
+
+        <div class="flex-1"></div>
+
+        {{!-- Search toggle for mobile --}}
+        <button class="header__search--toggle flex-cc js-search-toggle" tabindex="0" 
+          type="button" title="{{t "Search"}}" aria-label="{{t "Search"}}">
+          {{>icon name="search" size="sm"}}
+        </button>
+
+        {{!-- Menu Button --}}
+        <button class="header__menu--toggle flex-cc js-menu-toggle" tabindex="0" 
+          type="button" title="{{t "Menu"}}" aria-label="{{t "Menu"}}">
+          {{>icon name="menu" size="sm"}}
+          {{>icon name="x" size="sm"}}
+        </button>
+      </div>
+
+      <div class="col-md-6 col-lg-4 header__center middle-xs flex-1 js-header-search">
+        <div class="header__search flex flex-cc flex-1">
+          <form action="/" method="get" class="search__form items-center js-search-form">
+            <button class="search__icon m-r-sm js-search-btn" id="search-button"
+              type="button" title="{{t "Search"}}" aria-label="{{t "Search"}}">
+              {{>icon name="search" size="sm"}}
+            </button>
+            <input type="search" id="ghost-search-field" class="js-search-input search__input" aria-labelledby="search-button"
+              title="{{t "Search"}}" placeholder="{{t "Type to search"}}..." autocomplete="off" required/>
+            <span class="search__cancel js-search-cancel">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z"/></svg>
+            </span>
+          </form>
+          <div class="search-result" id="ghost-search-results"></div>
+        </div>
+      </div>
+
+      <div class="col-xs col-md-6 col-lg-8 header__right items-center content-end">
+        {{!-- Announcements --}}
+        {{> announcement}}
+
+        {{!-- Sign up Button --}}
+        {{#if @member.paid}}
+        {{else if @member}}
+          {{#link class="upgrade-link" href="/membership/"}}{{t "Upgrade"}}{{/link}}
+        {{else}}
+          {{#link class="signin-link" href="/signin/"}}{{t "Sign in"}}{{/link}}
+          {{#link class="signup-link header-cta" href="/signup/"}}{{t "Sign up"}}{{/link}}
+        {{/if}}
+
+        {{!-- User Menu on Mobile --}}
+        <button class="header__user flex-cc m-l-sm js-member-btn{{#if @member}} member{{else}} non-member{{/if}}" 
+            title="{{#if @member}}{{customer.name}}{{else}}{{t "Menu"}}{{/if}}" 
+            aria-label="{{#if @member}}{{customer.name}}{{else}}{{t "Menu"}}{{/if}}">
+          {{#if @member}}
+            <img class="header__user-avatar" 
+              src="{{@member.avatar_image}}"
+              alt="{{@member.name}}"/>
+              <span class="name-letter">{{#if @member.name}}{{@member.name}}{{else}}{{@member.email}}{{/if}}</span>
+          {{else}}
+            {{>icon name="user" size="sm"}}
+          {{/if}}
+        </button>
+        {{> site-user-menu}}
+      </div>
+    </div>
+  </div>
+</header>

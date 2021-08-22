@@ -1,0 +1,21 @@
+{{!-- Content preview --}}
+<div class="post-sneak-peek{{#if fading}} fading{{/if}}">
+  {{{html}}}
+</div>
+
+{{!-- Post Access CTA --}}
+<div class="post-access-cta p-lg text-center {{visibility}}">
+  <h3>{{t "Read the full story"}}</h3>
+  {{#has visibility="members"}}
+    <p class="text-acc-3">
+    {{t "Sign up now to read the full story and get access to all members-only posts."}}
+    </p>  
+  {{/has}}
+  {{#has visibility="paid"}}
+    <p class="text-acc-3">
+      {{t "Sign up now to read the full story and get access to all paid posts."}}
+    </p>
+  {{/has}}
+  <a class="btn btn--brand btn--rounded m-b" href="/signup/">{{t "Subscribe"}}</a>
+  <div class="small">{{t "Already have an account?"}} <a class="post-access-alt" href="/signin/">{{t "Sign in"}}</a></div>
+</div>

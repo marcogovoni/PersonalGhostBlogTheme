@@ -1,0 +1,27 @@
+<form class="subscribe-form flex flex-col flex-cc" {{#if cove}}id="cove-login"{{/if}}
+  data-members-form="{{#if form_type}}{{form_type}}{{else}}subscribe{{/if}}">
+  <div class="subscribe-box w-100">
+    {{#if name}}
+      <input data-members-name autocomplete="off"
+        type="text" placeholder="{{t "Your name"}}" required>
+    {{/if}}
+    <input data-members-email {{#if cove}}class="cove-input"{{/if}} type="email" 
+      autocomplete="off" placeholder="{{t "Your email address"}}" 
+      aria-labelledby="form-input-label" required/> 
+    <button class="btn btn--brand w-100 p" type="submit">
+      {{#if button_text}}{{button_text}}{{else}}{{t "Subscribe"}}{{/if}}
+    </button>
+  </div>
+  <a tabindex="0" class="notify notify-success js-notify-close">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">{{t "Great! Check your inbox and click the link."}}</div> 
+      <span class="notify__close">{{>icon name="x" size="xs"}}</span>
+    </div>
+  </a>
+  <a tabindex="0" class="notify notify-error js-notify-close">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">{{t "Sorry, something went wrong. Please try again."}}</div> 
+      <span class="notify__close">{{>icon name="x" size="xs"}}</span>
+    </div>
+  </a>
+</form>

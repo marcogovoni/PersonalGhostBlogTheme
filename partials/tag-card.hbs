@@ -1,0 +1,45 @@
+<div class="card tag-card p-lg{{#is "tag"}} is-hero{{/is}}" 
+  {{#if accent_color}}style="border-top: 3px solid {{accent_color}}"{{/if}}>
+  {{!-- Tag image --}}
+  {{#if show_img}}
+    {{#is "tag"}}
+      <div class="tag-card__media flex">
+    {{else}}
+      <a href="{{url}}" title="{{name}}" aria-label="{{name}}" class="tag-card__media flex">
+    {{/is}}
+      {{#if feature_image}}
+        <img class="lazyload tag-card__img"
+          data-srcset="{{img_url feature_image size="xs"}} 100w,
+                  {{img_url feature_image size="s"}} 300w"
+          srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+          data-sizes="auto"
+          data-src="{{img_url feature_image size="xs"}}"
+          src="{{img_url feature_image size="xxs"}}"
+          alt="{{name}}"
+        />
+      {{/if}}
+    {{#is "tag"}}</div>{{else}}</a>{{/is}}
+  {{/if}}
+
+  {{!-- Tag content --}}
+  <div class="tag-card__content text-acc-1">
+    {{!-- Title and description --}}
+    {{#is "tag"}}
+      <h1 class="tag-card__title m-b-sm">{{name}}</h1>
+    {{else}}
+      <a class="tag-card__name fw-600 text-acc-2 text-center{{#if description}} m-b{{/if}}" 
+        href="{{url}}" title="{{name}}" aria-label="{{name}}">
+        {{name}}
+      </a>
+    {{/is}}
+    {{#if description}}
+      <div class="tag-card__descr text-acc-3">{{description}}</div>
+    {{/if}}
+    {{!-- Post count --}}
+    {{#if post_count}}
+      <div class="tag-card__count m-t fw-600">
+        {{post_count}}
+      </div>
+    {{/if}}
+  </div>
+</div>
