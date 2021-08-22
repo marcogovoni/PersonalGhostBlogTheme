@@ -1,0 +1,60 @@
+{{!< default}}
+
+{{!-- Everything inside the #post tags pulls data from the post --}}
+{{#post}}
+  <div class="container wrapper">
+    {{!-- Hero --}}
+    {{> site-hero}}
+
+    {{!-- Article --}}
+    <article class="{{post_class}} content-wrap post-access-{{visibility}}">
+      {{#if access}}
+        {{> social-share}}
+      {{/if}}
+
+      <div class="content">
+        {{#if custom_excerpt}}
+          <p class="content-excerpt">
+            {{custom_excerpt}}
+          </p>
+        {{/if}}
+        
+        {{#if access}}
+          {{content}}
+        {{else}}
+          {{> content-cta fading=false}}
+        {{/if}}
+      </div>
+    </article>
+
+    {{!-- Authors --}}
+    {{#if access}}
+      <div class="content-wrap">
+        <div class="post-authors p flex flex-wrap bg-default">
+          <div class="section__title text-acc-3 m-b-sm">{{t "Published by"}}</div>
+          <span class="special-delimiter"></span>
+          {{#has author="count:<2"}}
+            {{#primary_author}}
+              {{> author-card type="post"}}
+            {{/primary_author}}
+          {{/has}}
+          {{#has author="count:>1"}}
+            {{#foreach authors}}
+              {{> author-card type="post-mini" mini=true}}
+            {{/foreach}}
+          {{/has}}
+        </div>
+      </div>
+    {{/if}}
+
+    {{!-- Include Comments --}}
+    {{#if access}}
+      <div class="content-wrap">
+        {{> comments}}
+      </div>
+    {{/if}}
+
+    {{!-- Related posts --}}
+    {{> related-posts}}
+  </div>
+{{/post}}

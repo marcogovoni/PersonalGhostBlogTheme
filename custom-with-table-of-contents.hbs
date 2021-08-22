@@ -1,0 +1,132 @@
+{{!< default}}
+
+{{!-- Everything inside the #post tags pulls data from the post --}}
+{{#post}}
+  <div class="container wrapper">
+    {{> site-hero}}
+
+    <article class="{{post_class}} content-wrap post-access-{{visibility}} js-toc-content">
+      {{#if access}}
+        {{> social-share}}
+      {{/if}}
+      <div class="content">
+        {{#if custom_excerpt}}
+          <p class="context-excerpt text-lg">
+            {{custom_excerpt}}
+          </p>
+        {{/if}}
+
+        {{#if access}}
+          {{content}}
+        {{else}}
+          {{> content-cta fading=true}}
+        {{/if}}
+      </div>
+    </article>
+
+    {{!-- Authors --}}
+    {{#if access}}
+      <div class="content-wrap">
+        <div class="post-authors p flex flex-wrap bg-default">
+          <div class="section__title text-acc-3 m-b-sm">{{t "Published by"}}</div>
+          <span class="special-delimiter"></span>
+          {{#has author="count:<2"}}
+            {{#primary_author}}
+              {{> author-card type="post"}}
+            {{/primary_author}}
+          {{/has}}
+          {{#has author="count:>1"}}
+            {{#foreach authors}}
+              {{> author-card type="post-mini" mini=true}}
+            {{/foreach}}
+          {{/has}}
+        </div>
+      </div>
+    {{/if}}
+
+    {{!-- Include Comments --}}
+    {{#if access}}
+      <div class="content-wrap">
+        {{> comments}}
+      </div>
+    {{/if}}
+
+    {{!-- Related posts --}}
+    {{> related-posts}}
+
+    {{!-- Table of contents --}}
+    {{#if access}}
+      {{#contentFor "toc"}}
+        <button class="toc-toggle btn-toggle-round js-toc-toggle">
+          {{> icon name="file-text" size="sm"}}
+        </button>
+        <div class="post-toc shadow js-post-toc"> 
+          <div class="section__title">{{t "Table of Contents"}}</div>
+          <span class="special-delimiter m-t-sm m-b-sm"></span>
+          <div class="post-toc__content js-toc"></div>
+        </div>
+      {{/contentFor}}
+      {{#contentFor "scripts"}}
+        <script>
+          document.addEventListener('readystatechange', function(event) {
+            if (document.readyState === "complete") {
+              // table of contents toggle
+              const tocToggleBtn = document.querySelector('.js-toc-toggle');
+              if (tocToggleBtn) {
+                tocToggleBtn.onclick = function(event) {
+                  event.currentTarget.classList.toggle('is-active');
+                }
+              }
+
+              const offset = 60;
+              window.addEventListener('scroll', function(event) {
+                //Scroll back to top
+                const scrollPos = window.scrollY || window.scrollTop || document.getElementsByTagName('html')[0].scrollTop;
+                scrollPos > offset ? tocToggleBtn.classList.add('is-visible') : tocToggleBtn.classList.remove('is-visible');
+              
+              }, false);
+
+              const postToc = document.querySelector('.js-post-toc');
+
+              if (postToc) {
+                tocbot.init({
+                  // Where to render the table of contents.
+                  tocSelector: '.js-toc',
+                  // Where to grab the headings to build the table of contents.
+                  contentSelector: '.js-toc-content',
+                  // Which headings to grab inside of the contentSelector element.
+                  headingSelector: 'h1, h2, h3',
+                  // For headings inside relative or absolute positioned containers within content.
+                  hasInnerContainers: false,
+                  // smooth scroll
+                  scrollSmooth: false,
+                  // offset
+                  headingsOffset: 10,
+                  // onclick event
+                  onClick: function(e){ 
+                    e.preventDefault();
+                    const href = this.getAttribute('href');
+                    var el = document.querySelector(`#${CSS.escape(href.substring(1))}`);
+                    let offset;
+                    CONFIG.ENABLE_STICKY_HEADER === true ? offset = 80 : offset = 20 
+                    const bodyRect = document.body.getBoundingClientRect().top;
+                    const elementRect = el.getBoundingClientRect().top;
+                    const elementPosition = elementRect - bodyRect;
+                    const offsetPosition = elementPosition - offset;
+
+                    window.scrollTo({
+                      top: offsetPosition,
+                      behavior: 'smooth'
+                    });
+
+                    document.querySelector('.js-toc-toggle').classList.remove('is-active');
+                  }
+                });
+              }
+            }
+          });
+        </script>
+      {{/contentFor}}
+    {{/if}}
+  </div>
+{{/post}}

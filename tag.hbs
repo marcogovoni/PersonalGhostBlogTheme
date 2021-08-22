@@ -1,0 +1,32 @@
+{{!< default}}
+
+<div class="container wrapper">
+  {{!-- Tag Hero --}}
+  {{#tag}}
+    <div class="section hero">
+      {{> tag-card show_img=true post_count=(plural ../pagination.total empty=(t 'No posts') singular=(t '1 post') plural=(t '% posts'))}}
+    </div>
+  {{/tag}}
+
+  {{!-- The main content --}}
+  {{#if posts}}
+    <div class="section main-content">
+      {{!-- Filter --}}
+      {{> filter-bar}}
+
+      {{!-- Posts --}}
+      <div class="grid grid-col-3 post-feed js-post-feed">
+        {{#foreach posts}}
+          {{> post-card show_img=true}}
+        {{/foreach}}
+      </div>
+
+      {{!-- Load more posts --}}
+      <div class="col-xs-12 center-xs m-t-lg">
+        <button class="btn btn--wide btn--rounded btn--shadow btn--brand js-load-more">
+          {{t "Load more posts"}}
+        </button>
+      </div>
+    </div>
+  {{/if}}
+</div>

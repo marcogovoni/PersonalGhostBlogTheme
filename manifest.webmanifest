@@ -1,0 +1,30 @@
+{
+  "name":"marcogovoni.it",
+  "short_name":"Cronache Digitali",
+  "description":"Il Blog sulla CyberSecurity, per tutti.",
+  "lang":"it",
+  "start_url":"/",
+  "background_color":"#ffffff",
+  "display":"standalone",
+  "theme_color":"#7450f7",
+  "icons":[
+     {
+        "src":"/assets/icons/icon-48x48.png",
+        "sizes":"48x48",
+        "type":"image/png",
+        "purpose": "any maskable"
+     },
+     {
+      "src": "/assets/icons/icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icons/icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ]
+}

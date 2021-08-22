@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="{{@site.locale}}" data-grid-columns="3" data-color-scheme="preference">
+  <head>
+    {{!-- Document Settings --}}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    {{!-- Page Meta --}}
+    <title>{{meta_title}}</title>
+
+    {{!-- Mobile Meta --}}
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    {{!-- PWA --}}
+    <link rel="manifest" href="/manifest.webmanifest">
+    <meta name="theme-color" content="{{@site.accent_color}}">
+    <link rel="apple-touch-icon" href="{{asset 'icon-192x192.png'}}">
+
+    {{!-- Preloading --}}
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="{{asset 'dist/app.min.js'}}" as="script">
+    <link rel="preload" href="{{asset 'dist/app.min.css'}}" as="style">
+    <link rel="preload stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800&display=swap" 
+          as="style" onload="this.onload=null;this.rel='stylesheet'" crossorigin>
+
+    {{!-- No Js --}}
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    </noscript>
+
+    {{!-- Main theme scripts --}}
+    <script async src="{{asset 'dist/app.min.js'}}"></script>
+
+    {{!-- Styles --}}
+    <link rel="stylesheet" type="text/css" href="{{asset 'dist/app.min.css'}}" />
+
+    {{!-- Critical CSS --}}
+    <!--cssential--><style></style><!--/cssential-->
+
+    {{!-- Theme Configuration --}}
+    {{> theme-config}}
+
+    {{!-- Global scripts for setting values --}}
+    {{> theme-scripts}}
+
+    {{!-- Ghost outputs important style and meta data with this tag --}}
+    {{ghost_head}}
+  </head>
+  <body class="{{body_class}}">
+    {{^is "signin, signup"}}
+      {{!-- The blog header --}}
+      {{> site-header}}
+
+      {{!-- Include Menu --}}
+      {{> site-menu}}
+    {{/is}}
+
+    <main class="main{{#is "signin, signup"}} p-t-0{{/is}}">
+      {{!-- All the main content gets inserted here, index.hbs, post.hbs, etc --}}
+      {{{body}}}
+    </main>
+
+    {{!-- The footer at the very bottom --}}
+    {{^is "signin, signup"}}
+      {{> site-footer}}
+      {{> site-scroll-top}}
+    {{/is}}
+    
+    {{{block "toc"}}}
+
+    {{!-- Notifications --}}
+    {{> site-notifications}}
+
+    {{!-- Service Worker for PWA --}}
+    <script>
+      if (CONFIG.ENABLE_PWA && 'serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js');
+        });
+      }
+    </script>
+
+    {{!-- The #block helper will pull in data from the #contentFor other template files. --}}
+    {{{block "scripts"}}}
+
+    {{!-- Ghost outputs important scripts and data with this tag --}}
+    {{ghost_foot}}
+  </body>
+</html>

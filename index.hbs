@@ -1,0 +1,47 @@
+{{!< default}}
+
+<div class="container wrapper">
+  {{!-- Subscribe --}}
+  {{> welcome cover-is-bg=true show_stats=true}}
+
+  {{!-- Filter --}}
+  {{> filter-bar}}
+
+  {{!-- Posts --}}
+  <div class="grid post-feed js-post-feed">
+    {{#foreach posts}}
+      {{> post-card show_img=true }}
+    {{/foreach}}
+  </div>
+
+  {{!-- Load more posts --}}
+  <div class="col-xs-12 center-xs m-t-lg">
+    <button class="btn btn--wide btn--rounded btn--shadow btn--brand js-load-more">
+      {{t "Load more posts"}}
+    </button>
+  </div>
+
+  {{!-- Main Tags --}}
+  {{#get "tags" include="count.posts" order="count.posts desc" limit="8"}}
+    <div class="section__title m-t-lg m-b">{{t "Explore topics"}}</div>
+    <div class="row">
+      {{#foreach tags}}
+        <div class="col-xs-12 col-md-6 col-xl-3 m-b-lg">
+          {{> tag-card show_img=true class="h-100"}}
+        </div>
+      {{/foreach}}
+    </div>
+  {{/get}}
+
+  {{!-- Authors --}}
+  {{#get "authors" include="count.posts" order="count.posts desc" limit="6"}}
+    <div class="section__title m-t m-b">{{t "Authors"}}</div>
+    <div class="row">
+      {{#foreach authors}}
+        <div class="col-xs-12 col-md-6 col-xl-4 m-b-lg">
+          {{> author-card type="mini" mini=true}}
+        </div>
+      {{/foreach}}
+    </div>
+  {{/get}}
+</div>

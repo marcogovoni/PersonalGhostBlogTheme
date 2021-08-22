@@ -1,0 +1,66 @@
+{{!< default}}
+
+{{!-- Everything inside the #post tags pulls data from the post --}}
+{{#post}}
+  <div class="container wrapper">
+    {{> site-hero}}
+    
+    <div class="{{post_class}} content-wrap post-access-{{visibility}}">
+      <div class="content">
+        {{#if access}}
+          <div class="js-bookmarks bookmarks">
+          </div>
+
+          {{content}}
+        {{/if}}
+      </div>
+    </div>
+  </div>
+{{/post}}
+
+{{#contentFor "scripts"}}
+  <script>
+    const bookmarksContainer = document.querySelector(".js-bookmarks");
+    const bookmarks = JSON.parse(localStorage.getItem("bookmarks") || "[]");
+
+    if (bookmarks.length === 0) {
+      bookmarksContainer.innerHTML = `<div class="p-t p-b"><strong>{{t "No bookmarks found."}}</strong> {{t "Looks like you haven't saved any articles yet."}}</div>`
+    } else {
+      bookmarksContainer.innerHTML = `
+        ${bookmarks.map(function(bookmark, index) { return `
+          <div class="bookmark-post p-t p-b flex items-center ${ index > 0 ? 'border-top-1' : ''}">
+            <h2 class="m-b-0 fw-500"><a href="${bookmark.url}" class="bookmark-post__title m-0 text-md color-txt-acc-2">${bookmark.title}</a></h2>
+            <span class="flex-1"></span>
+            <button class="bookmark-post__action js-bookmark-remove" data-id="${bookmark.id}" title="{{t "Delete"}}" aria-label="{{t "Delete"}}">
+              {{>icon name="trash" size="sm"}}
+            </button>
+          </div>
+        `}).join("")}
+      `;
+    }
+
+    const bookmarkRemoveBtns = document.querySelectorAll('.js-bookmark-remove');
+    bookmarkRemoveBtns.forEach(function(bookmarkRemoveBtn) {
+      bookmarkRemoveBtn.onclick = function(event) {
+        removeBookmark(event.currentTarget.parentNode,event.currentTarget.getAttribute('data-id'));
+      }
+    });
+
+    /** 
+    * Remove bookmark
+    * @postId
+    */ 
+    const removeBookmark = function(parent, postId) {
+      let filteredBookmarks = bookmarks.filter(function(item) {
+        return item.id === postId;
+      });
+
+      let deleteIndex = bookmarks.indexOf(filteredBookmarks[0]);
+      bookmarks.splice(deleteIndex, 1);
+      localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+
+      parent.parentNode.removeChild(parent);
+    };
+  </script>
+{{/contentFor}}
+

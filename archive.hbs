@@ -1,0 +1,48 @@
+{{!< default}}
+
+{{!-- Archive Page --}}
+<div class="container wrapper">
+  {{#page}}
+    {{> site-hero}}
+    <div class="page__excerpt text-acc-3 text-center text-lg">
+      {{#get "posts"}}
+        {{t "Browse the complete archive of {total} posts." total=pagination.total}}
+      {{/get}}
+    </div>
+  {{else}}
+    <div class="hero__content flex flex-col flex-cc">
+      <h1 class="hero__title text-center">{{t "Archive"}}</h1>
+      <div class="page__excerpt text-acc-3 text-center text-lg">
+        {{#get "posts"}}
+          {{t "Browse the complete archive of {total} posts." total=pagination.total}}
+        {{/get}}
+      </div>
+    </div>
+  {{/page}}
+  
+  <div class="{{post_class}} content-wrap post-access-{{visibility}}">
+    <div class="archive js-post-feed">
+      {{#foreach posts}}
+        <div class="archive-post-wrap post-year-{{date format="Y"}} js-post-card"> 
+          <div class="archive-post-label m-t m-b-sm fw-600">{{date format="YYYY"}}</div>
+          <article class="archive-post">
+            <time datetime="{{date published_at format="YYYY-MM-DD"}}"
+              class="text-acc-3">{{date published_at format="DD MMM YYYY"}}
+            </time>
+
+            <h2 class="archive-post__title fw-500 m-0 text-acc-2">
+              <a class="archive-post__link flex-1" href="{{url}}">{{title}}</a>
+            </h2>
+          </article>
+        </div>
+      {{/foreach}}
+    </div>
+
+    {{!-- Load more posts --}}
+    <div class="col-xs-12 center-xs">
+      <button class="btn btn--wide btn--rounded btn--shadow btn--brand js-load-more m-t-lg">
+        {{t "Load more posts"}}
+      </button>
+    </div>
+  </div>
+</div>
