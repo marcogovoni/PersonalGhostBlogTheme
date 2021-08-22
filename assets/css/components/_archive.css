@@ -1,0 +1,56 @@
+.page-archive {
+  .hero__content {
+    margin-bottom: 0;
+  }
+
+  .hero__figure {
+    margin-top: var(--gap);
+  }
+}
+
+.archive-post {
+  padding: 1.5em var(--gap);
+  background-color: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+
+  &-label {
+    font-size: 1.4rem;
+  }
+
+  time {
+    font-size: 0.8rem;
+    margin: 0;
+    padding: var(--gap-xs) var(--gap-sm);
+    background-color: var(--color-bg-acc-2);
+    border-radius: var(--global-radius);
+    min-width: 6rem;
+    max-height: 1.6rem;
+    text-align: center;
+    font-weight: var(--font-weight-500);
+    margin-right: var(--gap);
+  }
+
+  &__title {
+    font-size: 1.1rem;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+}
+
+.post-year-2025 + .post-year-2025 .archive-post-label,
+.post-year-2024 + .post-year-2024 .archive-post-label,
+.post-year-2023 + .post-year-2023 .archive-post-label,
+.post-year-2022 + .post-year-2022 .archive-post-label,
+.post-year-2021 + .post-year-2021 .archive-post-label,
+.post-year-2020 + .post-year-2020 .archive-post-label,
+.post-year-2019 + .post-year-2019 .archive-post-label,
+.post-year-2018 + .post-year-2018 .archive-post-label,
+.post-year-2017 + .post-year-2017 .archive-post-label,
+.post-year-2016 + .post-year-2016 .archive-post-label,
+.post-year-2015 + .post-year-2015 .archive-post-label,
+.post-date-2014 + .post-date-2014 .archive-post-label {
+  display: none;
+}

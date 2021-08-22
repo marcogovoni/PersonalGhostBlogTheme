@@ -1,0 +1,130 @@
+/* Search */
+.search {
+  &__form {
+    position: relative;
+    display: inline-flex;
+    flex: 1 0 auto;
+    transition: all var(--trans-default);
+
+    @mixin attention {
+    }
+  }
+
+  &__form:not(.focused) + &-result {
+    border: none;
+  }
+
+  &__input[type=text],
+  &__input[type=search] {
+    margin: 0;
+    padding: 0;
+    color: var(--color-text);
+    font-weight: var(--font-weight-500);
+    border: none;
+    box-shadow: none;
+    font-size: 1rem;
+    background-color: transparent;
+    flex: 1 0;
+    outline: none!important;
+    box-shadow: none!important;
+
+    &::placeholder { 
+      color: hsla(0,0%,50%,0.5);
+      font-weight: var(--font-weight-500);
+    }
+
+    /* Remove default */
+    &::-webkit-search-cancel-button{
+      -webkit-appearance: none;
+    }
+  }
+
+  &__cancel {
+    display: none;
+
+    svg {
+      width: 15px;
+      height: 15px;
+      fill: grey;
+    }
+  }
+
+  &__input:not(:placeholder-shown) + &__cancel {
+    display: flex;
+  }
+
+  &__icon {
+    border: none;
+    font-size: var(--font-size-base);
+    transition: color var(--trans-default);
+    margin: 0;
+    background-color: transparent;
+    box-shadow: none;
+    min-width: 0;
+    cursor: pointer;
+    color: var(--color-text-acc-3);
+
+    @mixin attention {
+      color: var(--color-primary);
+    }
+  }
+
+  &-content {
+    max-width: 640px;
+    margin: 0 auto;
+    margin-top: var(--gap);
+    padding: 0 var(--gap);
+
+    @media (--mq-sm) {
+      padding: 0;
+    }
+  }
+
+  &-result {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 61px;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-left: 0;
+    border-top: 0;
+    box-shadow: 0 10px 30px 0 rgba(0,0,0,.1);
+    overflow-y: scroll;
+    max-height: calc(100vh - 60px);
+
+    /* Hide scrollbar */
+    @mixin hide-scrollbar;
+
+    &__post {
+      display: flex;
+      position: relative;
+      border-radius: var(--global-radius);
+      border-bottom: 1px solid var(--color-border);
+
+      @mixin attention {
+        .search-result__title {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    &__content {
+      padding: var(--gap);
+      flex: 1;
+    }
+
+    &__title {
+      margin-bottom: var(--gap-xs);
+      font-size: 0.9rem;
+      font-weight: var(--font-weight-600);
+      color: var(--color-text-acc-2);
+    }
+
+    &__date {
+      margin-bottom: 0;
+      font-size: 0.8rem;
+      color: var(--color-text-acc-2);
+    }
+  }
+}

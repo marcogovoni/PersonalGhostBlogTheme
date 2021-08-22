@@ -1,0 +1,11 @@
+.card {
+  padding: var(--gap);
+  background-color: var(--color-bg);
+  border-radius: var(--global-radius);
+  transition: transform var(--trans-default), box-shadow var(--trans-default);
+  box-shadow: 0 2px 20px 0 rgba(0,0,0,.02);
+
+  @mixin attention {
+    box-shadow: 0 10px 30px 0 rgba(0,0,0,.1);
+  }
+}

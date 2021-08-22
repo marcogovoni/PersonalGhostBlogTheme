@@ -1,0 +1,42 @@
+.scroll-top {
+	position: fixed;
+  z-index: 50;
+	right: var(--gap);
+	bottom: var(--gap);
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(15px);    
+
+  @media (--mq-md) {
+    right: var(--gap-lg);
+    bottom: var(--gap-lg);
+  }
+
+  @mixin attention {
+    color: var(--color-primary);
+
+    .progress-circle path {
+      stroke: var(--color-primary);
+    }
+  }
+
+  &.is-active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  i {
+    position: absolute;
+  }
+}
+
+.scroll-top svg path { 
+	fill: none; 
+}
+
+.scroll-top svg.progress-circle path {
+	stroke: var(--color-text-acc-2);
+	stroke-width: 4;
+  transition: all var(--trans-default);
+}
