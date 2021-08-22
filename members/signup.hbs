@@ -1,0 +1,56 @@
+{{!< ../default}}
+<div class="site signup flex flex-cc">
+  {{#if @member.paid}}
+
+    {{!-- Logged in, paying member: Redirect home --}}
+    <script>window.location = '{{@site.url}}';</script>
+
+  {{else if @member}}
+
+    {{!-- Logged in, paying member: Redirect to account page --}}
+    <script>window.location = '/account/';</script>
+    
+  {{else}}
+
+    {{#page}}
+      {{#if feature_image}}
+        <div class="site__cover">
+          <img class="lazyload"
+            data-srcset="{{img_url feature_image size="s"}} 300w,
+                        {{img_url feature_image size="m"}} 600w,
+                        {{img_url feature_image size="l"}} 1000w,
+                        {{img_url feature_image size="xl"}} 2000w"
+            srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+            data-sizes="auto"
+            data-src="{{img_url feature_image size="m"}}"
+            src="{{img_url feature_image size="xxs"}}"
+            alt="{{title}}"
+          />
+        </div>
+      {{/if}}
+    {{/page}}
+    <div class="site__inner">
+      <a href="/" class="site__brand">
+        {{!-- Add logo or title --}}
+        {{#if @site.logo}}
+          {{!-- Site logo --}}
+          <img class="site__logo" 
+            src="{{img_url @site.logo size="s"}}"
+            alt="{{@site.title}}"/>
+        {{else}}
+          {{!-- Site Title --}}
+          {{@site.title}}
+        {{/if}}
+      </a>
+
+      <div class="site__content shadow">
+        <h1 class="site__title">{{#page}}{{title}}{{else}}{{t "Sign up"}}{{/page}}</h1>
+        <p id="form-input-label">{{t "Sign up to {sitetitle} to get access to premium content." sitetitle=@site.title}}</p>
+        {{> subscribe-form form_type="signup" button_text=(t 'Continue') name=true}}
+        <p class="m-t-lg m-0 text-center">
+          <small>{{t "Already have an account?"}} <a href="/signin/">{{t "Sign in"}}</a></small>
+        </p>
+      </div>
+    </div>
+  {{/if}}
+</div>

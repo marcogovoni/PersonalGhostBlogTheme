@@ -1,0 +1,157 @@
+{{!< ../default}}
+
+{{#page}}
+  {{> site-hero}}
+{{else}}
+  <div class="hero__content flex flex-cc m-b">
+    <h1 class="hero__title text-center">{{t "Your account"}}</h1>
+  </div>
+{{/page}}
+
+<div class="container wrapper">
+
+  {{#if @member.paid}}
+    {{!-- Logged in, paying member: Show account info --}}
+    <div class="subscriber-box content-wrap shadow text-acc-2 m-b-lg">
+      {{#foreach @member.subscriptions}}
+        {{#if @first}}
+          <div class="subscriber-box__main flex items-center">
+            <div class="welcome__profile flex flex-cc">
+              {{#if @member.avatar_image}}
+                <img src="{{@member.avatar_image}}" alt="{{#if @member.name}}{{@member.name}}{{else}}{{@member.email}}{{/if}}"/>
+                <span class="name-letter">{{#if @member.name}}{{@member.name}}{{else}}{{@member.email}}{{/if}}</span>
+              {{/if}}
+            </div>
+            <div class="welcome__content flex-1">
+              <div class="welcome__title fw-600">{{t "Welcome back"}}{{#if @member.name}}, {{@member.name}}{{/if}}!</div>
+              <div class="welcome__descr">
+                {{t "Check your subscription details below."}}
+              </div>
+            </div>
+          </div>
+        {{/if}}
+
+        <div class="subscriber-box__info m-t p-t border-top-1 flex-1">
+          <div class="subscriber-box__descr">
+            {{#if cancel_at_period_end}}
+              <span class="color-error fw-600">{{t "Your subscription will expire on"}} {{date current_period_end format="DD MMM YYYY"}}.</span>
+              {{t "If you change your mind in the meantime you can turn auto-renew back on to continue your subscription."}}
+            {{else}}
+              {{t "Currently, you have an active account to all areas."}}
+              {{t "You're all set, but if you need any help, get in touch with us and we'd be happy to help."}}
+            {{/if}}
+          </div>
+          <div class="subscriber-box__details">
+            <div class="subscriber-detail">
+              <label class="subscriber-detail-label">{{t "Email"}}</label>
+              <span class="subscriber-detail-content">{{@member.email}}</span>
+            </div>
+
+            <div class="subscriber-detail">
+              <label class="subscriber-detail-label">{{t "Your plan"}}</label>
+              <span class="subscriber-detail-content">
+                {{price plan}}/{{plan.interval}}
+              </span>
+            </div>
+
+            <div class="subscriber-detail">
+              <label class="subscriber-detail-label">{{t "Card"}}</label>
+              <span class="subscriber-detail-content">**** **** **** {{default_payment_card_last4}}</span>
+            </div>
+
+            <div class="subscriber-detail">
+              <label class="subscriber-detail-label">
+                {{#if cancel_at_period_end}}
+                  {{t "Expires"}}
+                {{else}}
+                  {{t "Next bill date"}}
+                {{/if}}
+              </label>
+              <span class="subscriber-detail-content">{{date current_period_end format="DD MMM YYYY"}}</span>
+            </div>
+          </div>
+
+          <div class="subscriber__edit m-t">
+            <a class="btn btn--brand btn--rounded btn--xs" href="javascript:"
+                data-members-edit-billing
+                data-members-success="{{@site.url}}/account/?stripe=billing-update-success"
+                data-members-cancel="{{@site.url}}/account/?stripe=billing-update-cancel"
+              >{{t "Edit billing info"}}</a>
+
+            {{cancel_link 
+              class="btn btn--brand btn--rounded btn--xs btn--bordered"
+              cancelLabel=(t 'Cancel subscription')
+              continueLabel=(t 'Continue subscription')
+            }}
+          </div>
+        </div>
+      {{/foreach}}
+    </div>
+
+    {{#get "posts" include="authors,tags" limit="20" }}
+      <div class="section__title m-b">{{t "Premium member content"}}</div>
+      
+      <div class="row">
+        {{#foreach posts visibility="paid" limit="3"}}
+          <div class="col-xs-12 col-md-6 col-lg-4 m-b-lg">
+            {{> post-card class="h-100"}}
+          </div>
+        {{/foreach}}
+      </div>
+    {{/get}}
+
+  {{else if @member}}
+
+    {{!-- Logged in, not paying: Link to checkout --}}
+    <div class="subscriber-box content-wrap shadow text-acc-2 m-b-lg">
+      <div class="subscriber-box__main flex items-center">
+        <div class="welcome__profile flex flex-cc">
+          {{#if @member.avatar_image}}
+            <img src="{{@member.avatar_image}}" alt="{{#if @member.name}}{{@member.name}}{{else}}{{@member.email}}{{/if}}"/>
+            <span class="name-letter">{{#if @member.name}}{{@member.name}}{{else}}{{@member.email}}{{/if}}</span>
+          {{/if}}
+        </div>
+        <div class="welcome__content flex-1">
+          <div class="welcome__title fw-600">{{t "Welcome back"}}{{#if @member.name}}, {{@member.name}}{{/if}}!</div>
+          <div class="welcome__descr">
+            {{t "Currently, you are subscribed to free updates."}} 
+            {{t "Unlock full access to see the entire library of members-only content & updates by subscribing to a paid plan."}}
+          </div>
+        </div>
+      </div>
+
+      <div class="subscriber-box__details m-t border-top-1">
+        <div class="subscriber-detail">
+          <label class="subscriber-detail-label">{{t "Email"}}</label>
+          <span class="subscriber-detail-content">{{@member.email}}</span>
+        </div>
+
+        <div class="subscriber-detail">
+          <label class="subscriber-detail-label">{{t "Your plan"}}</label>
+          <span class="subscriber-detail-content">{{t "Free"}}</span>
+        </div>
+      </div>
+    </div>
+
+    {{!-- Logged in, not paying: Check out --}}
+    <div class="checkout__form">
+      <div class="checkout__title m-b text-center fw-600 text-acc-3">{{t "Choose your plan"}}</div>
+      
+      <div class="row">
+        <div class="col-xs-12 col-md-4 m-b-lg{{#if @member}} col-md-offset-2{{/if}}">
+          {{> pricing/monthly}}
+        </div>
+        
+        <div class="col-xs-12 col-md-4 m-b-lg">
+          {{> pricing/yearly}}
+        </div>
+      </div>
+    </div>
+
+  {{else}}
+
+    {{!-- Not logged in: Redirect to signin --}}
+    <script>window.location = '{{@site.url}}/signin/';</script>
+
+  {{/if}}
+</div>
