@@ -5,13 +5,6 @@
 
   <div class="container wrapper">
     {{> site-hero wide_img=true}}
-
-    <article class="{{post_class}} content-wrap post-access-{{visibility}}">
-      <div class="content">
-        <h2> Cos'è questa pagina? </h2>
-        <p> Tutti i contenuti di Cronache Digitali, sono gratuiti. Iscriviti (al piano gratuito!) per riceverli direttamente nella tua email, gestire il tuo account, gli articoli preferiti e altre novità. Se invece scegli un piano a pagamento 😱, lo fai solo per supportarmi in questa attività di divulgazione! 🙏 Grazie comunque ;-) </p>
-      </div>
-    </article>
     
     <div class="checkout">
       <div class="row">
@@ -21,20 +14,25 @@
         {{else}}
           {{#unless @member}}
             <div class="col-xs-12 col-md-4 m-b-lg">
-              {{> pricing/free}}
+              {{> pricing-free}}
             </div>
           {{/unless}}
 
           <div class="col-xs-12 col-md-4{{#if @member}} col-md-offset-2{{/if}} m-b-lg">
-            {{> pricing/monthly}}
+            {{> pricing-monthly}}
           </div>
           
           <div class="col-xs-12 col-md-4 m-b-lg">
-            {{> pricing/yearly}}
+            {{> pricing-yearly}}
           </div>
         {{/if}}
       </div>
     </div>
+
+    {{#if access}}
+      {{content}}
+    {{/if}}
+    
   </div>
 
 {{/post}}
